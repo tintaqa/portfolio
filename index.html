@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tinta Joy — Software Test Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0A1628;
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 3rem;
+  background: #0A1628;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  z-index: 100;
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; color: #C9A84C;
+}
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a {
+  font-size: 14px; color: rgba(255,255,255,0.55);
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: #C9A84C; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8rem 3rem 5rem;
+  background: #0A1628;
+  position: relative; overflow: hidden;
+  border-bottom: 3px solid #C9A84C;
+}
+.hero-panel {
+  position: absolute; top: 0; right: 0;
+  width: 50%; height: 100%;
+  background: #0F2040;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  z-index: 0;
+}
+.hero-line {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #C9A84C, #F0D080, #C9A84C);
+  z-index: 2;
+}
+.hero-content { position: relative; z-index: 1; max-width: 700px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: #C9A84C; margin-bottom: 2rem;
+}
+.hero-badge::before { content: ''; width: 32px; height: 1px; background: #C9A84C; }
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(44px, 7vw, 82px);
+  line-height: 1.05; letter-spacing: -2px;
+  color: #FFFFFF; margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; color: #C9A84C; }
+.hero-desc {
+  font-size: 16px; color: rgba(255,255,255,0.55);
+  max-width: 520px; margin-bottom: 2.5rem; line-height: 1.9;
+}
+.hero-contacts { display: flex; gap: 2rem; flex-wrap: wrap; }
+.hero-contacts a {
+  font-size: 13px; color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  padding-bottom: 3px; transition: all 0.2s;
+}
+.hero-contacts a:hover { color: #C9A84C; border-color: #C9A84C; }
+
+/* STATS */
+.stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  background: #0A1628;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.stat { padding: 2.5rem 3rem; border-right: 1px solid rgba(255,255,255,0.06); }
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 44px; line-height: 1; margin-bottom: 6px; color: #C9A84C;
+}
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.40); }
+
+/* SECTIONS */
+section {
+  padding: 5rem 3rem;
+  background: #0D1E35;
+  border-bottom: 1px solid rgba(201,168,76,0.10);
+}
+section:nth-child(even) { background: #0A1628; }
+
+.section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
+.section-tag {
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: #C9A84C; font-weight: 500;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.1; letter-spacing: -1px; color: #FFFFFF;
+}
+.section-title em { font-style: italic; color: rgba(201,168,76,0.7); }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text { font-size: 15px; color: rgba(255,255,255,0.60); line-height: 1.95; }
+.about-highlights { display: flex; flex-direction: column; gap: 0.85rem; }
+.highlight {
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-left: 3px solid #C9A84C;
+  border-radius: 0 12px 12px 0;
+  padding: 1.1rem 1.4rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.highlight-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; font-size: 15px;
+}
+.highlight-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 3px; letter-spacing: 0.5px; text-transform: uppercase; }
+.highlight-value { font-size: 14px; font-weight: 500; color: #FFFFFF; }
+
+/* EXPERIENCE */
+.exp-list { display: flex; flex-direction: column; }
+.exp-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 3rem; padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+.exp-item:last-child { border-bottom: none; }
+.exp-date { font-size: 12px; color: #C9A84C; margin-bottom: 6px; font-weight: 500; }
+.exp-loc-left { font-size: 12px; color: rgba(255,255,255,0.30); }
+.exp-company {
+  font-family: 'DM Serif Display', serif;
+  font-size: 21px; margin-bottom: 3px; color: #FFFFFF;
+}
+.exp-role { font-size: 14px; color: #C9A84C; margin-bottom: 4px; font-weight: 500; }
+.exp-loc-right { font-size: 12px; color: rgba(255,255,255,0.30); margin-bottom: 1rem; }
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.exp-bullets li {
+  font-size: 14px; color: rgba(255,255,255,0.58);
+  line-height: 1.75; padding-left: 1.3rem; position: relative;
+}
+.exp-bullets li::before {
+  content: '—'; position: absolute; left: 0;
+  color: #C9A84C; font-size: 11px; top: 2px;
+}
+
+/* PROJECTS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(285px,1fr));
+  gap: 1rem;
+}
+.project-card {
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-top: 2px solid #C9A84C;
+  border-radius: 0 0 14px 14px;
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201,168,76,0.45);
+}
+.project-tag {
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+  display: inline-block; margin-bottom: 1rem; font-weight: 500;
+  background: rgba(201,168,76,0.12);
+  color: #C9A84C;
+  border: 1px solid rgba(201,168,76,0.25);
+}
+.project-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; margin-bottom: 8px; color: #FFFFFF;
+}
+.project-desc { font-size: 13px; color: rgba(255,255,255,0.50); line-height: 1.75; }
+
+/* SKILLS */
+.skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.skill-group {
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 14px; padding: 1.5rem;
+}
+.skill-group-title {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: #C9A84C; margin-bottom: 1rem; font-weight: 500;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tag {
+  font-size: 13px; color: rgba(255,255,255,0.70);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 100px; padding: 5px 14px;
+  transition: all 0.2s;
+}
+.skill-tag:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: rgba(201,168,76,0.35);
+  color: #C9A84C;
+}
+
+/* EDUCATION */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.edu-card {
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-bottom: 2px solid #C9A84C;
+  border-radius: 14px 14px 0 0;
+  padding: 2rem;
+}
+.edu-year { font-size: 12px; color: #C9A84C; margin-bottom: 0.5rem; font-weight: 500; letter-spacing: 0.5px; }
+.edu-degree {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; margin-bottom: 5px; color: #FFFFFF;
+}
+.edu-school { font-size: 14px; color: rgba(201,168,76,0.80); margin-bottom: 4px; font-weight: 500; }
+.edu-place { font-size: 13px; color: rgba(255,255,255,0.35); }
+
+/* CONTACT */
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.contact-intro { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 2rem; }
+.contact-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+.contact-card {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 12px; padding: 1rem 1.5rem;
+  transition: border-color 0.2s;
+}
+.contact-card:hover { border-color: #C9A84C; }
+.contact-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+.contact-value { font-size: 14px; font-weight: 500; color: #FFFFFF; }
+.contact-arrow { color: #C9A84C; font-size: 18px; }
+.contact-cta {
+  background: #0F2040;
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px; padding: 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.contact-cta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #C9A84C, #F0D080, #C9A84C);
+}
+.cta-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px; margin-bottom: 1rem; line-height: 1.2; color: #FFFFFF;
+}
+.cta-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.8; margin-bottom: 1.75rem; }
+.cta-email {
+  font-size: 15px; font-weight: 500; color: #C9A84C;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.35);
+  padding-bottom: 3px;
+  align-self: flex-start;
+}
+.cta-email:hover { color: #F0D080; border-color: #F0D080; }
+
+/* FOOTER */
+footer {
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px;
+  background: #0A1628;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+footer .f-left { color: #C9A84C; }
+footer .f-right { color: rgba(255,255,255,0.25); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * { animation: fadeUp 0.75s ease both; }
+.hero-badge    { animation-delay: 0.10s; }
+.hero h1       { animation-delay: 0.20s; }
+.hero-desc     { animation-delay: 0.32s; }
+.hero-contacts { animation-delay: 0.44s; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 6rem 1.5rem 3.5rem; }
+  .hero-panel { display: none; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stat { padding: 1.75rem 1.5rem; }
+  section { padding: 3rem 1.5rem; }
+  .about-grid,
+  .contact-layout,
+  .skills-layout,
+  .edu-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-logo">Tinta Joy</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-panel"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Software Test Engineer</div>
+    <h1>Tinta Joy<br><em>QA Specialist</em></h1>
+    <p class="hero-desc">4 years of expertise in software quality assurance across web, mobile, AI platforms, and blockchain applications. Based in Dubai, UAE.</p>
+    <div class="hero-contacts">
+      <a href="mailto:tintajoy41@gmail.com">tintajoy41@gmail.com</a>
+      <a href="tel:+971568903423">+971 568 903 423</a>
+      <a href="#">Dubai, UAE</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Years experience</div></div>
+  <div class="stat"><div class="stat-num">14+</div><div class="stat-label">Projects delivered</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Companies</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">QA interns led</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-tag">About</span>
+    <h2 class="section-title">Driving <em>quality</em> at every layer</h2>
+  </div>
+  <div class="about-grid">
+    <p class="about-text">Experienced Software Test Engineer with 4 years of expertise in QA and software testing for web and mobile platforms. Specializes in end-to-end testing of blockchain applications, AI platforms, and HSE solutions. Skilled in validating multi-LLM architectures, ensuring compliance, and integrating with business systems. Proficient in manual and automated testing, test case design, and defect management across usability, functionality, security, and performance. Strong collaborator with cross-functional and AI engineering teams to deliver reliable and scalable software products.</p>
+    <div class="about-highlights">
+      <div class="highlight">
+        <div class="highlight-icon">🧪</div>
+        <div><div class="highlight-label">Specialization</div><div class="highlight-value">End-to-end QA — Web, Mobile & AI</div></div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">🔗</div>
+        <div><div class="highlight-label">Domain expertise</div><div class="highlight-value">Blockchain, AI/GenAI, HSE, FinTech</div></div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">👥</div>
+        <div><div class="highlight-label">Leadership</div><div class="highlight-value">Leading team of 4 QA interns</div></div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">📍</div>
+        <div><div class="highlight-label">Location</div><div class="highlight-value">Dubai, UAE</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-tag">Experience</span>
+    <h2 class="section-title">Professional <em>journey</em></h2>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div><div class="exp-date">07/2023 — Present</div><div class="exp-loc-left">Dubai, UAE</div></div>
+      <div>
+        <div class="exp-company">Innobayt Innovative Solutions LLC</div>
+        <div class="exp-role">Software Test Engineer</div>
+        <div class="exp-loc-right">Dubai, UAE</div>
+        <ul class="exp-bullets">
+          <li>Ensured quality and reliability of diverse applications including AI-powered agentic systems, blockchain, fitness, social media, and enterprise solutions</li>
+          <li>Tested AI agentic workflows validating multi-agent interactions, decision logic, prompt handling, fallback mechanisms, and end-to-end task execution</li>
+          <li>Designed and executed detailed manual and scenario-based test cases across web, mobile, and AI-driven platforms</li>
+          <li>Identified, reported, and tracked defects using JIRA ensuring high-quality standards and timely resolution</li>
+          <li>Conducted manual testing of cryptocurrency and blockchain-based projects including smart-contract flows and crypto payment solutions</li>
+          <li>Performed HSE solution testing — validating incident reporting, compliance checks, alerting mechanisms, and role-based access controls</li>
+          <li>Utilized SQL for database validation, data integrity checks, and backend testing of AI and enterprise applications</li>
+          <li>Led and mentored a team of 4 QA interns — assigning tasks, monitoring daily progress, and providing feedback</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-date">11/2020 — 03/2021</div><div class="exp-loc-left">Dubai, UAE</div></div>
+      <div>
+        <div class="exp-company">Venture Infosystems</div>
+        <div class="exp-role">Software Test Engineer (Intern)</div>
+        <div class="exp-loc-right">Dubai, UAE</div>
+        <ul class="exp-bullets">
+          <li>Experienced in test automation using HP ALM tool</li>
+          <li>Designed and executed test cases across multiple environments ensuring end-user functionality</li>
+          <li>Proficient in web and mobile testing — Android and iOS</li>
+          <li>Skilled in defect reporting and management using JIRA and HP ALM</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-date">04/2018 — 12/2019</div><div class="exp-loc-left">Kochi, India</div></div>
+      <div>
+        <div class="exp-company">Eram Infotech</div>
+        <div class="exp-role">QA Engineer</div>
+        <div class="exp-loc-right">Kochi, India</div>
+        <ul class="exp-bullets">
+          <li>Proven expertise in test planning, strategy development, and scheduling for comprehensive software testing</li>
+          <li>Key project: Tripmakers.com — a secure B2B travel platform tested for complex role-based access covering flights, hotels, holiday packages, and travel insurance</li>
+          <li>Skilled in manual testing within ASP.NET, MS-SQL, and XML documents to validate backend logic and APIs</li>
+          <li>Proficient in bug tracking using JIRA and TFS with effective coordination across cross-platform teams</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div><div class="exp-date">Earlier</div><div class="exp-loc-left">Kochi, India</div></div>
+      <div>
+        <div class="exp-company">CRS Technologies India Pvt Ltd</div>
+        <div class="exp-role">Test Engineer</div>
+        <div class="exp-loc-right">Kochi, India</div>
+        <ul class="exp-bullets">
+          <li>Demonstrated strong critical thinking in investigating and resolving complex software issues</li>
+          <li>Successfully reproduced bugs by analyzing logs, test environments, and user reports</li>
+          <li>Documented detailed bug reproduction steps for clear communication with development teams</li>
+          <li>Collaborated with developers to facilitate timely issue resolution and uphold quality standards</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-tag">Projects</span>
+    <h2 class="section-title">Key <em>projects</em> delivered</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card"><span class="project-tag">AI / GenAI</span><div class="project-name">Velyana</div><div class="project-desc">Validated AI guardrail and governance platform — tested prompt injection detection, real-time policy enforcement, PII compliance, and content moderation accuracy across multi-LLM pipelines.</div></div>
+    <div class="project-card"><span class="project-tag">Industrial IoT / HSE</span><div class="project-name">Tecnimont HSE</div><div class="project-desc">Tested industrial IoT safety system — validated RFID badge scanning, mustering logic, duplicate handling, real-time headcount tracking, alert mechanisms, and role-based access controls across hardware-software integrations.</div></div>
+    <div class="project-card"><span class="project-tag">Blockchain</span><div class="project-name">Dubai Mining Farm</div><div class="project-desc">Executed end-to-end testing of a crypto mining platform — validated smart-contract flows, blockchain integrations, automated payout engine, wallet flows, and crypto payment processing on mobile and web.</div></div>
+    <div class="project-card"><span class="project-tag">Fitness / Web3</span><div class="project-name">Fitburn & Burn to Earn</div><div class="project-desc">Tested fitness and blockchain reward platform — validated heart rate-based token reward logic, wearable device connectivity, crypto token calculations, and end-to-end workout-to-reward flows.</div></div>
+    <div class="project-card"><span class="project-tag">Social Media</span><div class="project-name">Yandexgram / BFFGram</div><div class="project-desc">Performed functional and regression testing on social media platforms — validated feeds, posts, likes, comments, user profiles, messaging, and notification flows across Android and iOS.</div></div>
+    <div class="project-card"><span class="project-tag">FinTech</span><div class="project-name">Rawafid — Crowdfunding Platform</div><div class="project-desc">Tested crowdfunding platform — validated investor user journeys, campaign creation flows, funding and tracking workflows, financial data handling, compliance checks, and reporting accuracy.</div></div>
+    <div class="project-card"><span class="project-tag">FinTech</span><div class="project-name">Demeter — Investor Portal</div><div class="project-desc">Validated investor-facing portal — tested secure authentication, user dashboard accuracy, trading-related workflows, financial data visibility, reporting features, and role-based data access.</div></div>
+    <div class="project-card"><span class="project-tag">AI / Compliance</span><div class="project-name">KBE Compliance Agent</div><div class="project-desc">Tested AI compliance solution — validated business requirement validation logic, policy violation detection, regulatory gap identification, rule enforcement accuracy, and enterprise system integration workflows.</div></div>
+    <div class="project-card"><span class="project-tag">SaaS / Fitness</span><div class="project-name">SafeFit Studios</div><div class="project-desc">Executed comprehensive testing of gym management platform — validated booking flows, trainer management modules, payment system integrations, multi-portal functionality, and analytics dashboard accuracy.</div></div>
+    <div class="project-card"><span class="project-tag">Conversational AI</span><div class="project-name">Desert Coach — AI Voice Agent</div><div class="project-desc">Tested AI-powered voice assistant — validated real-time trip validation logic, conversational flow accuracy, telephony integrations (Twilio, Vonage), escalation routing, and dispatch automation workflows.</div></div>
+    <div class="project-card"><span class="project-tag">E-commerce</span><div class="project-name">KFTS — Spices E-commerce</div><div class="project-desc">Performed end-to-end e-commerce testing — validated product catalog, cart, checkout, payment processing, order tracking, inventory management, low-stock alerts, admin panel workflows, and logistics integrations.</div></div>
+    <div class="project-card"><span class="project-tag">Media / Community</span><div class="project-name">ZEDIT / Oneness</div><div class="project-desc">Tested content creation and community platforms — validated editing and publishing workflows, media handling, user interaction modules, content management, and performance under load.</div></div>
+    <div class="project-card"><span class="project-tag">Travel / B2B</span><div class="project-name">Tripmakers B2B / B2C</div><div class="project-desc">Conducted manual testing on secure travel platform — validated complex role-based access, flight and hotel booking flows, holiday packages, travel insurance, and transfer service integrations.</div></div>
+    <div class="project-card"><span class="project-tag">SaaS</span><div class="project-name">Paypark</div><div class="project-desc">Executed functional, integration, regression, and compatibility testing — validated core payment workflows, user journeys, cross-browser behaviour, and mobile responsiveness across platforms.</div></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-tag">Skills</span>
+    <h2 class="section-title">Core <em>competencies</em></h2>
+  </div>
+  <div class="skills-layout">
+    <div class="skill-group">
+      <div class="skill-group-title">Testing types</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Manual testing</span>
+        <span class="skill-tag">Functional testing</span>
+        <span class="skill-tag">Integration testing</span>
+        <span class="skill-tag">System testing</span>
+        <span class="skill-tag">Regression testing</span>
+        <span class="skill-tag">UI testing</span>
+        <span class="skill-tag">API testing</span>
+        <span class="skill-tag">Compatibility testing</span>
+        <span class="skill-tag">Performance testing</span>
+        <span class="skill-tag">Security testing</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tools & platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">JIRA</span>
+        <span class="skill-tag">Azure DevOps</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">HP ALM</span>
+        <span class="skill-tag">TFS</span>
+        <span class="skill-tag">Selenium</span>
+        <span class="skill-tag">Appium</span>
+        <span class="skill-tag">TestNG</span>
+        <span class="skill-tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Platforms & domains</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Web testing</span>
+        <span class="skill-tag">Mobile — Android</span>
+        <span class="skill-tag">Mobile — iOS</span>
+        <span class="skill-tag">AI / GenAI systems</span>
+        <span class="skill-tag">Blockchain</span>
+        <span class="skill-tag">SaaS applications</span>
+        <span class="skill-tag">HSE solutions</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Methodologies & soft skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Agile / Scrum</span>
+        <span class="skill-tag">Kanban</span>
+        <span class="skill-tag">SDLC</span>
+        <span class="skill-tag">Test case design</span>
+        <span class="skill-tag">Defect management</span>
+        <span class="skill-tag">Team leadership</span>
+        <span class="skill-tag">Cross-functional collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-tag">Education</span>
+    <h2 class="section-title">Academic <em>background</em></h2>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-year">2016</div>
+      <div class="edu-degree">Master of Computer Applications</div>
+      <div class="edu-school">Karunya University</div>
+      <div class="edu-place">Coimbatore, India</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">Certificate</div>
+      <div class="edu-degree">Software Testing</div>
+      <div class="edu-school">Qspider Institute</div>
+      <div class="edu-place">Bangalore, India</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-tag">Contact</span>
+    <h2 class="section-title">Get in <em>touch</em></h2>
+  </div>
+  <div class="contact-layout">
+    <div>
+      <p class="contact-intro">Open to QA Engineer and Software Test Engineer opportunities. Available for full-time, contract, and remote positions globally.</p>
+      <div class="contact-cards">
+        <div class="contact-card"><div><div class="contact-label">Email</div><div class="contact-value">tintajoy41@gmail.com</div></div><span class="contact-arrow">→</span></div>
+        <div class="contact-card"><div><div class="contact-label">Phone</div><div class="contact-value">+971 568 903 423</div></div><span class="contact-arrow">→</span></div>
+        <div class="contact-card"><div><div class="contact-label">Location</div><div class="contact-value">Dubai, UAE</div></div><span class="contact-arrow">→</span></div>
+        <div class="contact-card"><div><div class="contact-label">Availability</div><div class="contact-value">Available immediately</div></div><span class="contact-arrow">→</span></div>
+      </div>
+    </div>
+    <div class="contact-cta">
+      <div class="cta-title">Let's build quality software together</div>
+      <p class="cta-desc">I bring 4 years of QA expertise across AI platforms, blockchain applications, and enterprise SaaS to every project I work on.</p>
+      <a href="mailto:tintajoy41@gmail.com" class="cta-email">tintajoy41@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="f-left">© 2026 Tinta Joy. All rights reserved.</span>
+  <span class="f-right">Software Test Engineer — Dubai, UAE</span>
+</footer>
+
+</body>
+</html>
